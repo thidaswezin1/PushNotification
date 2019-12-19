@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
                     txtMessage.setText(message);
                 }
-
             }
         };
 

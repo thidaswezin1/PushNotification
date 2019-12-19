@@ -2,7 +2,6 @@ package com.thida.pushnotification.utility;
 
 import android.app.ActivityManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -36,6 +35,7 @@ public class NotificationUtility {
     private void showNotification(NotificationCompat.Builder builder, int icon, String title, String message, String timestamp, PendingIntent pendingIntent, Uri alarm){
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(message);
+
         Notification notification = builder.setSmallIcon(icon).setTicker(title)
                 .setAutoCancel(true)
                 .setContentTitle(title)
@@ -44,18 +44,9 @@ public class NotificationUtility {
                 .setStyle(inboxStyle)
                 .setContentText(message)
                 .setWhen(getTimeMilliSec(timestamp))
+                .setChannelId("id1")
                 .build();
-
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String id = "1";
-            CharSequence name = "name";
-            String description = "description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(id, name, importance);
-            channel.setDescription(description);
-            notificationManager.createNotificationChannel(channel);
-        }
         notificationManager.notify(Config.NOTIFICATION_ID,notification);
     }
 
@@ -66,7 +57,7 @@ public class NotificationUtility {
         int icon = R.drawable.ic_notifications_active_black_24dp;
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "id1");
         Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + context.getPackageName() + "/raw/notification");
 
