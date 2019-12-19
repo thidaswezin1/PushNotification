@@ -56,7 +56,7 @@ public class MyFirebaseMessageService extends FirebaseMessagingService {
         if(!NotificationUtility.isAppIsInBackground(getApplicationContext())){
             // app is in foreground, broadcast the push message
             Intent intent = new Intent(Config.PUSH_NOTIFICATION);
-            intent.putExtra("message",intent);
+            intent.putExtra("message",message);
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
             //Play Notification Sound
